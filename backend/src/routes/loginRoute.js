@@ -21,21 +21,14 @@ export const loginRoute = {
         }
 
 
-
         try {
-            const data = await provider.initiateAuth(
-                params
-            ).promise();
-
+            const data = await provider.initiateAuth(params).promise();
             let token = data.AuthenticationResult.AccessToken;
             console.log(token);
             return res.status(200).json({ token });
-
         } catch (err) {
-            console.log(err);
+            console.log(err, err.stack); // an error occurred
             return res.sendStatus(500);
         }
-
-
     },
 };

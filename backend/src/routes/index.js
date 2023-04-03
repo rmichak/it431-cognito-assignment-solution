@@ -7,7 +7,8 @@ import { loginRoute } from './loginRoute';
 import { signUpRoute } from './signUpRoute';
 import { getUsersRoute } from './getUsersRoute';
 import { signUpVerifyRoute } from './signupVerifyRoute';
-
+import { forgotPasswordRoute } from './forgotPasswordRoutes';
+import { forgotPasswordConfirmRoute } from './confirmPasswordRoute';
 
 export const routes = [
     getCoursesRoute,
@@ -18,5 +19,7 @@ export const routes = [
     loginRoute,
     signUpRoute,
     signUpVerifyRoute,
-    getUsersRoute
+    getUsersRoute,
+    forgotPasswordRoute,
+    forgotPasswordConfirmRoute
 ];
