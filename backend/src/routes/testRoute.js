@@ -27,12 +27,17 @@ export const getTestRoute = {
 
             );
 
-            //console.log(payload)
+            console.log(payload)
 
         }
         catch (err) {
-            console.log(err);
-            return res.status(500).json({ result: "Token Validation Error" });
+            if (err.message.includes("Token expired")) {
+                return res.status(401).json({ result: "Token Expired" });
+            } else {
+                console.log(err);
+                return res.status(500).json({ result: "Token Validation Error" });
+
+            }
         }
 
         return res.status(200).json({ message: "success" });

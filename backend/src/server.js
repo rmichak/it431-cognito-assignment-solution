@@ -2,7 +2,6 @@ import express from 'express';
 import { routes } from './routes';
 import cors from 'cors';
 
-
 const PORT = process.env.PORT || 8080;
 
 const app = express();
