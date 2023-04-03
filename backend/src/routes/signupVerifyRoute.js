@@ -10,26 +10,22 @@ export const signUpVerifyRoute = {
 
         const secretHash = crypto.createHmac('sha256', process.env.COGNITO_CLIENT_SECRET).update(email + process.env.COGNITO_CLIENT_ID).digest('base64');
 
-        const provider = new CognitoIdentityServiceProvider({ apiVersion: '2016-04-18', region: 'us-east-1' });
+        const provider = new CognitoIdentityServiceProvider({ apiVersion: '2016-04-18', region: process.env.AWS_REGION });
         var params = {
             ClientId: process.env.COGNITO_CLIENT_ID,
             Username: email,
             ConfirmationCode: code,
             SecretHash: secretHash
         }
-        provider.confirmSignUp(params, function (err, data) {
-            if (err) {
-                console.log(err, err.stack); // an error occurred
-                return res.sendStatus(500);
 
-            }
+        try {
+            const data = await provider.confirmSignUp(params).promise();
+            console.log(data);
+            return res.sendStatus(200);
+        } catch (err) {
+            console.log(err);
+            return res.sendStatus(500);
+        }
 
-            else {
-                console.log(data);           // successful response
-                return res.sendStatus(200);
-            }
-        });
-
-        //return res.sendStatus(200);
     },
 };

@@ -10,7 +10,7 @@ export const forgotPasswordRoute = {
 
         const secretHash = crypto.createHmac('sha256', process.env.COGNITO_CLIENT_SECRET).update(email + process.env.COGNITO_CLIENT_ID).digest('base64');
 
-        const provider = new CognitoIdentityServiceProvider({ apiVersion: '2016-04-18', region: 'us-east-1' });
+        const provider = new CognitoIdentityServiceProvider({ apiVersion: '2016-04-18', region: process.env.AWS_REGION });
         provider.forgotPassword({
             ClientId: process.env.COGNITO_CLIENT_ID,
             Username: email,

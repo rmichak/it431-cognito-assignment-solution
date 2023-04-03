@@ -9,7 +9,7 @@ export const loginRoute = {
 
         const secretHash = crypto.createHmac('sha256', process.env.COGNITO_CLIENT_SECRET).update(email + process.env.COGNITO_CLIENT_ID).digest('base64');
 
-        const provider = new CognitoIdentityServiceProvider({ apiVersion: '2016-04-18', region: 'us-east-1' });
+        const provider = new CognitoIdentityServiceProvider({ apiVersion: '2016-04-18', region: process.env.AWS_REGION });
         var params = {
             AuthFlow: 'USER_PASSWORD_AUTH',
             ClientId: process.env.COGNITO_CLIENT_ID,
@@ -19,14 +19,15 @@ export const loginRoute = {
                 SECRET_HASH: secretHash
             }
         }
-
-
         try {
             const data = await provider.initiateAuth(params).promise();
             let token = data.AuthenticationResult.AccessToken;
-            console.log(token);
+            //console.log(token);
             return res.status(200).json({ token });
         } catch (err) {
+            if (err.code === 'NotAuthorizedException') {
+                return res.status(401).json({ error: 'Incorrect username or password' });
+            }
             console.log(err, err.stack); // an error occurred
             return res.sendStatus(500);
         }
